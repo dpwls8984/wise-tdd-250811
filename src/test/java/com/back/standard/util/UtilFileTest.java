@@ -55,9 +55,9 @@ public class UtilFileTest {
         String content = Util.file.get(filePath, "");
 
         // then - content가 정상적으로 읽어와지는지
-
         assertThat(content).isEqualTo("hello world");
 
+        Util.file.delete(filePath);
     }
 
 }
