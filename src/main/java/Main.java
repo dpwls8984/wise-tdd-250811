@@ -1,4 +1,5 @@
 import com.back.App;
+import com.back.AppContext;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -6,9 +7,12 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        new App(new Scanner(System.in)).run(); //테스트가 아니라 실제 사용자가 입력한 값 확인하는 용도
+
+        AppContext.init();
+        new App().run();
+
 //        experiment1();
-        //experiment2();
+//        experiment2();
     }
 
     public static void experiment2() {
@@ -27,7 +31,7 @@ public class Main {
         System.setOut(originalOut);
         printStream.close();
 
-        if(outStr.equals("하하하")) {
+        if (outStr.equals("하하하")) {
             System.out.println("출력 결과가 일치합니다.");
         } else {
             System.out.println("출력 결과가 일치하지 않습니다.");
@@ -51,4 +55,5 @@ public class Main {
         System.out.println("입력한 명언: " + saying);
 
     }
+
 }
