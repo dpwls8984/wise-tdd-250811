@@ -1,5 +1,7 @@
 package com.back.standard.util;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -7,12 +9,21 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class UtilFileTest {
 
+@BeforeAll
+static void beforeAll(){ //모든 테스트 케이스 시작 전 temp 폴더 생성
+    Util.file.mkdir("temp");
+}
+
+@AfterAll
+static void afterAll() {  //모든 테스트케이스가 끝나고나면 temp 폴더 삭제 실행
+    Util.file.rmdir("temp");
+}
     @Test
     @DisplayName("파일 생성")
     void t1() {
 
         // 무언가를 세팅하고
-        String filePath = "test.txt";
+        String filePath = "temp/test.txt";
 
         // 수행하면
         Util.file.touch(filePath);
@@ -31,7 +42,7 @@ public class UtilFileTest {
     void t2() {
 
         // given
-        String filePath = "test.txt";
+        String filePath = "temp/test.txt";
         Util.file.touch(filePath); // 파일 생성
 
         // when
@@ -48,7 +59,24 @@ public class UtilFileTest {
     void t3() {
 
         // given
-        String filePath = "test.txt";
+        String filePath = "temp/test.txt";
+        Util.file.set(filePath, "hello world"); // 파일 쓰기
+
+        // when
+        String content = Util.file.get(filePath, "");
+
+        // then - content가 정상적으로 읽어와지는지
+        assertThat(content).isEqualTo("hello world");
+
+        Util.file.delete(filePath);
+    }
+
+    @Test
+    @DisplayName("파일 생성 - 경로에 폴더가 없는 경우")
+    void t4() {
+
+        // given
+        String filePath = "temp/temp/test.txt";
         Util.file.set(filePath, "hello world"); // 파일 쓰기
 
         // when
